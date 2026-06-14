@@ -504,6 +504,44 @@ input[type=range]::-webkit-slider-thumb:active{transform:scale(1.2);cursor:grabb
   </button>
 </nav>
 
+<!-- ════ PAGE: SPLASH ════ -->
+<div id="pg-splash" class="page active shell" style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:#000;">
+  <div style="text-align:center;padding:32px 24px;max-width:420px;width:100%;">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120" width="320" height="96" style="max-width:100%;margin-bottom:8px;">
+      <defs>
+        <linearGradient id="vg" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#7C3AFF"/>
+          <stop offset="50%" style="stop-color:#C4A0FF"/>
+          <stop offset="100%" style="stop-color:#7C3AFF"/>
+        </linearGradient>
+        <linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#7C3AFF;stop-opacity:0"/>
+          <stop offset="50%" style="stop-color:#7C3AFF;stop-opacity:1"/>
+          <stop offset="100%" style="stop-color:#7C3AFF;stop-opacity:0"/>
+        </linearGradient>
+      </defs>
+      <line x1="40" y1="28" x2="360" y2="28" stroke="url(#lg)" stroke-width="0.5" opacity="0.6"/>
+      <text x="200" y="78" font-family="Georgia,serif" font-size="58" font-style="italic" font-weight="400" text-anchor="middle" letter-spacing="12" fill="url(#vg)">velvet</text>
+      <text x="200" y="98" font-family="Arial,sans-serif" font-size="9" text-anchor="middle" letter-spacing="5" fill="#7C3AFF" opacity="0.7">PREMIUM CREATOR PLATFORM</text>
+      <line x1="40" y1="108" x2="360" y2="108" stroke="url(#lg)" stroke-width="0.5" opacity="0.6"/>
+      <text x="30" y="34" font-family="Arial" font-size="8" fill="#7C3AFF" opacity="0.4">&#10022;</text>
+      <text x="358" y="34" font-family="Arial" font-size="8" fill="#7C3AFF" opacity="0.4">&#10022;</text>
+    </svg>
+    <div style="font-size:11px;color:#5A5870;letter-spacing:2px;text-transform:uppercase;margin-bottom:48px;">
+      Founded &amp; built by <span style="color:#7C3AFF;">Estelle Pieterse</span> &middot; South Africa
+    </div>
+    <button onclick="nav('age')" style="width:100%;padding:17px;border-radius:14px;background:linear-gradient(135deg,#7C3AFF,#4A00CC);border:none;font-family:Georgia,serif;font-style:italic;font-size:20px;color:#F4F4F8;cursor:pointer;letter-spacing:1px;box-shadow:0 4px 28px rgba(124,58,255,0.4);margin-bottom:16px;">
+      Enter Velvet
+    </button>
+    <div style="font-size:10px;color:#3A3848;letter-spacing:2px;">18+ ONLY &middot; ADULT CONTENT &middot; join-velvet.online</div>
+    <div style="display:flex;justify-content:center;gap:6px;margin-top:32px;">
+      <div style="width:4px;height:4px;border-radius:50%;background:#7C3AFF;animation:blink 1.8s ease infinite;"></div>
+      <div style="width:4px;height:4px;border-radius:50%;background:#7C3AFF;animation:blink 1.8s 0.6s ease infinite;"></div>
+      <div style="width:4px;height:4px;border-radius:50%;background:#7C3AFF;animation:blink 1.8s 1.2s ease infinite;"></div>
+    </div>
+  </div>
+</div>
+
 <!-- ════ PAGE: AGE GATE ════ -->
 <div id="pg-age" class="page active shell">
   <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;">
@@ -519,7 +557,7 @@ input[type=range]::-webkit-slider-thumb:active{transform:scale(1.2);cursor:grabb
       <div class="age-legal">By entering you agree to our
         <a href="#" onclick="nav('legal');return false;">Terms of Service</a> and
         <a href="#" onclick="nav('legal');return false;">Privacy Policy</a>.<br/>
-        join-velvet.online · CCBill Secured · POPIA Compliant
+        join-velvet.online · Founded by Estelle Pieterse · CCBill Secured · POPIA Compliant
       </div>
     </div>
   </div>
@@ -621,7 +659,7 @@ input[type=range]::-webkit-slider-thumb:active{transform:scale(1.2);cursor:grabb
       <a class="lf-link" href="#" onclick="nav('legal');return false;">Privacy</a>
       <a class="lf-link" href="mailto:velvetteam60@gmail.com">Contact</a>
     </div>
-    <div class="lf-copy">© 2026 Velvet · join-velvet.online · 18+ only</div>
+    <div class="lf-copy">© 2026 Velvet · Founded & built by Estelle Pieterse · South Africa · join-velvet.online · 18+ only</div>
   </div>
 </div>
 
@@ -1117,7 +1155,7 @@ function tosSection(num,title,body){return`<div class="legal-section"><div class
 // ══════════════════════════════════════════════════════
 window.addEventListener('DOMContentLoaded',()=>{
   // Skip age gate if already confirmed
-  if(localStorage.getItem('vlt_age')==='1'){nav('land');}
+  if(localStorage.getItem('vlt_age')==='1'){nav('land');}else{nav('splash');}
   calcRender();
 });
 </script>
