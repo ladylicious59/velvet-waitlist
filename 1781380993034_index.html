@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Velvet — Premium Creator Platform</title>
+  <meta name="description" content="Velvet is a premium adult creator platform. Keep 80% of everything you earn. Launching at join-velvet.online"/>
+  <meta property="og:title" content="Velvet — Your content. Your income."/>
+  <meta property="og:description" content="Keep 80% of everything you earn. Join the waitlist at join-velvet.online"/>
+  <meta property="og:url" content="https://join-velvet.online"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    :root {
+      --black:   #000000;
+      --dark:    #080810;
+      --panel:   #0F0F18;
+      --card:    #14141E;
+      --rim:     #1E1E2E;
+      --rim2:    #2A2A3E;
+      --white:   #F0F0F8;
+      --white2:  #8888A8;
+      --violet:  #7C3AFF;
+      --violet2: #9D6AFF;
+      --violet3: #C4A0FF;
+      --green:   #00E87A;
+      --green2:  #00C060;
+      --serif: 'Playfair Display', serif;
+      --sans:  'Space Grotesk', sans-serif;
+    }
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--sans);
+      font-weight: 300;
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── PAGES ── */
+    .page { display:none; min-height:100vh; }
+    .page.active { display:block; }
+
+    /* ── AMBIENT ── */
+    .amb {
+      position:fixed; inset:0; z-index:0; pointer-events:none;
+      background:
+        radial-gradient(ellipse 70% 40% at 50% 0%, rgba(124,58,255,0.1) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 40% at 90% 90%, rgba(0,232,122,0.04) 0%, transparent 60%);
+    }
+    .noise {
+      position:fixed; inset:0; z-index:1; pointer-events:none; opacity:0.018;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size:200px;
+    }
+
+    /* ── STREAKS ── */
+    .streaks { position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+    .streak {
+      position:absolute; width:1px;
+      background:linear-gradient(180deg,transparent 0%,rgba(124,58,255,0.35) 50%,transparent 100%);
+      animation:streakFall linear infinite;
+    }
+    @keyframes streakFall {
+      0%   { transform:translateY(-100%); opacity:0; }
+      10%  { opacity:1; }
+      90%  { opacity:1; }
+      100% { transform:translateY(120vh); opacity:0; }
+    }
+
+    /* ── GLOBAL HEADER ── */
+    .gbl-hdr {
+      position:fixed; top:0; left:0; right:0; z-index:200;
+      height:56px;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 28px;
+      background:rgba(0,0,0,0.75);
+      backdrop-filter:blur(24px);
+      border-bottom:1px solid rgba(255,255,255,0.05);
+    }
+    .g-logo {
+      font-family:var(--serif); font-style:italic; font-weight:400;
+      font-size:24px; letter-spacing:5px;
+      background:linear-gradient(110deg,var(--white),var(--violet3));
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      cursor:pointer;
+    }
+    .g-nav { display:flex; gap:4px; }
+    .g-nav-btn {
+      padding:7px 14px; border-radius:100px;
+      border:none; background:transparent;
+      font-family:var(--sans); font-size:11px; font-weight:500;
+      letter-spacing:1px; text-transform:uppercase;
+      color:var(--white2); cursor:pointer; transition:all 0.2s;
+    }
+    .g-nav-btn:hover { color:var(--white); }
+    .g-nav-btn.on { background:rgba(124,58,255,0.15); color:var(--violet3); }
+    .g-pill {
+      display:flex; align-items:center; gap:6px;
+      padding:6px 14px; border-radius:100px;
+      border:1px solid var(--rim2);
+      font-size:10px; font-weight:500; letter-spacing:2px;
+      text-transform:uppercase; color:var(--white2);
+    }
+    .live-dot {
+      width:6px; height:6px; border-radius:50%;
+      background:var(--violet);
+      box-shadow:0 0 8px var(--violet);
+      animation:blink 1.8s ease infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    /* ════════════════════════════════════════════
+       PAGE 1 — AGE GATE
+    ════════════════════════════════════════════ */
+    #pg-age {
+      display:flex; align-items:center; justify-content:center;
+      min-height:100vh; padding:40px 24px;
+      background:radial-gradient(ellipse 80% 60% at 50% 30%, #1A0830 0%, #000000 70%);
+      position:relative; z-index:10;
+    }
+    .age-box {
+      max-width:440px; width:100%; text-align:center;
+      position:relative; z-index:2;
+    }
+    .age-logo {
+      font-family:var(--serif); font-style:italic; font-weight:300;
+      font-size:60px; letter-spacing:6px; color:var(--white);
+      margin-bottom:4px; line-height:1;
+    }
+    .age-tag {
+      font-size:10px; font-weight:500; letter-spacing:4px;
+      text-transform:uppercase; color:var(--violet3);
+      margin-bottom:48px; display:block;
+    }
+    .age-badge {
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 20px; border-radius:100px;
+      border:1px solid rgba(124,58,255,0.3);
+      background:rgba(124,58,255,0.08);
+      font-size:11px; font-weight:500; letter-spacing:2px;
+      text-transform:uppercase; color:var(--violet3);
+      margin-bottom:28px;
+    }
+    .age-title {
+      font-family:var(--serif); font-style:italic;
+      font-size:clamp(28px,7vw,42px); font-weight:700;
+      color:var(--white); margin-bottom:14px; line-height:1.1;
+    }
+    .age-text {
+      font-size:14px; color:var(--white2); line-height:1.7;
+      margin-bottom:36px; font-weight:300;
+    }
+    .age-law {
+      background:rgba(124,58,255,0.06);
+      border:1px solid rgba(124,58,255,0.2);
+      border-radius:12px; padding:14px 18px;
+      font-size:12px; color:var(--white2); line-height:1.7;
+      margin-bottom:28px; text-align:left;
+    }
+    .age-law strong { color:var(--white); font-weight:500; }
+    .age-yes {
+      width:100%; padding:17px;
+      background:linear-gradient(135deg,var(--violet),#4A00CC);
+      border:none; border-radius:14px;
+      font-family:var(--serif); font-style:italic;
+      font-size:20px; color:var(--white); cursor:pointer;
+      margin-bottom:10px; transition:all 0.2s;
+      box-shadow:0 6px 28px rgba(124,58,255,0.35);
+    }
+    .age-yes:hover { box-shadow:0 10px 40px rgba(124,58,255,0.55); transform:translateY(-1px); }
+    .age-no {
+      width:100%; padding:13px;
+      background:transparent; border:1px solid var(--rim2);
+      border-radius:14px; font-family:var(--sans);
+      font-size:12px; font-weight:500; letter-spacing:1px;
+      text-transform:uppercase; color:var(--white2); cursor:pointer;
+      transition:all 0.2s;
+    }
+    .age-no:hover { border-color:var(--white2); color:var(--white); }
+    .age-small {
+      margin-top:20px; font-size:11px; color:var(--rim2);
+      line-height:1.7;
+    }
+    .age-small a { color:var(--white2); text-decoration:none; cursor:pointer; }
+    .age-small a:hover { color:var(--violet3); }
+    .age-flags {
+      display:flex; justify-content:center; gap:10px;
+      flex-wrap:wrap; margin-bottom:32px;
+    }
+    .age-flag { font-size:11px; color:var(--rim2); letter-spacing:1px; }
+
+    /* ════════════════════════════════════════════
+       PAGE 2 — LANDING
+    ════════════════════════════════════════════ */
+    #pg-land { position:relative; z-index:2; }
+    .land-wrap { max-width:680px; margin:0 auto; padding:0 20px; }
+
+    /* Hero */
+    .land-hero {
+      min-height:100vh; display:flex; flex-direction:column;
+      align-items:center; justify-content:center;
+      padding:100px 24px 80px; text-align:center;
+      position:relative;
+    }
+    .land-hero::before {
+      content:''; position:absolute;
+      top:50%; left:50%; transform:translate(-50%,-60%);
+      width:600px; height:400px;
+      background:radial-gradient(ellipse,rgba(124,58,255,0.1) 0%,transparent 70%);
+      pointer-events:none;
+    }
+    .land-kicker {
+      display:inline-flex; align-items:center; gap:8px;
+      padding:7px 18px; border-radius:100px;
+      border:1px solid rgba(124,58,255,0.3);
+      background:rgba(124,58,255,0.06);
+      font-size:10px; font-weight:500; letter-spacing:3px;
+      text-transform:uppercase; color:var(--violet3);
+      margin-bottom:36px;
+      animation:riseIn 0.9s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    @keyframes riseIn {
+      from{opacity:0;transform:translateY(24px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+    .land-h1 {
+      font-family:var(--serif); font-size:clamp(52px,13vw,108px);
+      font-weight:900; line-height:0.92; letter-spacing:-2px;
+      margin-bottom:28px;
+      animation:riseIn 0.9s 0.08s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    .h1-a { display:block; color:var(--white); }
+    .h1-b {
+      display:block; font-style:italic; font-weight:400;
+      color:transparent; -webkit-text-stroke:1px rgba(240,240,248,0.2);
+    }
+    .h1-c {
+      display:block; font-style:italic;
+      background:linear-gradient(110deg,var(--violet2),var(--violet3));
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      filter:drop-shadow(0 0 32px rgba(124,58,255,0.4));
+    }
+    .land-sub {
+      font-size:clamp(14px,2.5vw,17px); color:var(--white2);
+      font-weight:300; line-height:1.7; max-width:460px;
+      margin:0 auto 48px;
+      animation:riseIn 0.9s 0.16s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    /* Counter */
+    .ctr-wrap {
+      margin-bottom:40px;
+      animation:riseIn 0.9s 0.22s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    .ctr-num {
+      font-family:var(--serif); font-style:italic; font-weight:900;
+      font-size:clamp(44px,10vw,72px); line-height:1;
+      background:linear-gradient(110deg,var(--white),var(--violet3));
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      margin-bottom:5px;
+    }
+    .ctr-sub {
+      font-size:10px; font-weight:500; letter-spacing:3px;
+      text-transform:uppercase; color:var(--white2);
+    }
+    .ctr-flags { display:flex; justify-content:center; gap:6px; margin-top:10px; font-size:18px; }
+
+    /* Toggle */
+    .tgl-wrap {
+      display:flex; background:var(--panel);
+      border:1px solid var(--rim); border-radius:12px;
+      padding:4px; margin-bottom:20px; gap:4px;
+      animation:riseIn 0.9s 0.28s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    .tgl-btn {
+      padding:10px 28px; border-radius:9px;
+      border:none; background:transparent;
+      font-family:var(--sans); font-size:12px; font-weight:500;
+      letter-spacing:0.5px; cursor:pointer;
+      color:var(--white2); transition:all 0.2s;
+    }
+    .tgl-btn.on {
+      background:linear-gradient(135deg,var(--violet),#4A00CC);
+      color:var(--white);
+      box-shadow:0 3px 16px rgba(124,58,255,0.4);
+    }
+
+    /* Form */
+    .frm-wrap {
+      width:100%; max-width:440px;
+      animation:riseIn 0.9s 0.34s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    .frm-row {
+      display:flex; gap:8px; margin-bottom:12px;
+      background:var(--panel); border:1px solid var(--rim);
+      border-radius:12px; padding:5px 5px 5px 18px;
+      transition:border-color 0.2s;
+    }
+    .frm-row:focus-within { border-color:rgba(124,58,255,0.45); box-shadow:0 0 0 3px rgba(124,58,255,0.08); }
+    .frm-in {
+      flex:1; background:transparent; border:none; outline:none;
+      font-family:var(--sans); font-size:13px; font-weight:300;
+      color:var(--white);
+    }
+    .frm-in::placeholder { color:var(--white2); }
+    .frm-btn {
+      padding:11px 22px; border-radius:9px;
+      background:linear-gradient(135deg,var(--violet),#4A00CC);
+      border:none; font-family:var(--sans); font-size:12px;
+      font-weight:600; letter-spacing:1px; text-transform:uppercase;
+      color:var(--white); cursor:pointer; transition:all 0.2s;
+      box-shadow:0 3px 14px rgba(124,58,255,0.3); white-space:nowrap;
+    }
+    .frm-btn:hover { box-shadow:0 6px 24px rgba(124,58,255,0.55); transform:translateY(-1px); }
+    .frm-note { font-size:11px; color:var(--white2); letter-spacing:0.5px; line-height:1.6; }
+    .frm-note a { color:var(--white2); text-decoration:none; cursor:pointer; }
+    .frm-note a:hover { color:var(--violet3); }
+
+    /* Success */
+    .suc-card {
+      width:100%; max-width:420px;
+      background:var(--panel); border:1px solid rgba(124,58,255,0.3);
+      border-radius:20px; padding:32px 24px; text-align:center;
+      box-shadow:0 0 50px rgba(124,58,255,0.1);
+      animation:popIn 0.4s cubic-bezier(0.34,1.56,0.64,1) both;
+    }
+    @keyframes popIn { from{opacity:0;transform:scale(0.88)} to{opacity:1;transform:scale(1)} }
+    .suc-icon { font-size:44px; display:block; margin-bottom:14px; }
+    .suc-h { font-family:var(--serif); font-style:italic; font-size:28px; font-weight:700; color:var(--white); margin-bottom:8px; }
+    .suc-p { font-size:13px; color:var(--white2); line-height:1.7; margin-bottom:18px; }
+    .suc-pos { display:inline-block; padding:9px 22px; border-radius:100px; background:rgba(124,58,255,0.1); border:1px solid rgba(124,58,255,0.3); font-family:var(--serif); font-style:italic; font-size:17px; color:var(--violet3); margin-bottom:20px; }
+    .shr-row { display:flex; gap:6px; justify-content:center; flex-wrap:wrap; }
+    .shr-btn { padding:7px 14px; border-radius:8px; border:1px solid var(--rim2); background:transparent; font-family:var(--sans); font-size:10px; font-weight:500; letter-spacing:1px; text-transform:uppercase; color:var(--white2); cursor:pointer; transition:all 0.2s; }
+    .shr-btn:hover { border-color:var(--violet2); color:var(--violet3); }
+
+    /* Marquee */
+    .mq-wrap { overflow:hidden; border-top:1px solid var(--rim); border-bottom:1px solid var(--rim); background:var(--panel); padding:10px 0; }
+    .mq-track { display:flex; gap:48px; width:max-content; animation:mq 28s linear infinite; }
+    @keyframes mq { to{transform:translateX(-50%)} }
+    .mq-item { font-size:10px; font-weight:500; letter-spacing:3px; text-transform:uppercase; color:var(--white2); white-space:nowrap; display:flex; align-items:center; gap:14px; }
+    .mq-dot { width:4px; height:4px; border-radius:50%; background:var(--violet); opacity:0.6; }
+
+    /* Sec label */
+    .sec-lbl { display:flex; align-items:center; gap:20px; padding:56px 0 36px; }
+    .sl-l { flex:1; height:1px; background:var(--rim); }
+    .sl-t { font-size:10px; font-weight:600; letter-spacing:4px; text-transform:uppercase; color:var(--white2); }
+
+    /* Stats */
+    .stats { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--rim); border:1px solid var(--rim); border-radius:18px; overflow:hidden; margin-bottom:0; }
+    .stat-c { background:var(--panel); padding:32px 20px; transition:background 0.2s; }
+    .stat-c:hover { background:var(--card); }
+    .stat-n { font-family:var(--serif); font-style:italic; font-weight:700; font-size:clamp(32px,6vw,52px); background:linear-gradient(135deg,var(--violet2),var(--violet3)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; line-height:1; margin-bottom:8px; }
+    .stat-d { font-size:12px; color:var(--white2); font-weight:300; line-height:1.5; }
+    .stat-d strong { color:var(--white); font-weight:500; display:block; margin-bottom:2px; }
+
+    /* Features */
+    .feat-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .feat-c { background:var(--panel); border:1px solid var(--rim); border-radius:16px; padding:24px 20px; transition:all 0.3s; position:relative; overflow:hidden; }
+    .feat-c::before { content:''; position:absolute; top:-1px; left:20px; right:20px; height:1px; background:linear-gradient(90deg,transparent,rgba(124,58,255,0.5),transparent); opacity:0; transition:opacity 0.3s; }
+    .feat-c:hover { border-color:rgba(124,58,255,0.25); transform:translateY(-2px); }
+    .feat-c:hover::before { opacity:1; }
+    .feat-ic { width:40px; height:40px; border-radius:10px; background:rgba(124,58,255,0.1); border:1px solid rgba(124,58,255,0.2); display:flex; align-items:center; justify-content:center; font-size:18px; margin-bottom:14px; }
+    .feat-h { font-family:var(--serif); font-style:italic; font-size:18px; font-weight:700; color:var(--white); margin-bottom:6px; }
+    .feat-p { font-size:12px; color:var(--white2); line-height:1.65; font-weight:300; }
+    .feat-n { margin-top:16px; padding-top:14px; border-top:1px solid var(--rim); font-family:var(--serif); font-style:italic; font-size:22px; font-weight:700; background:linear-gradient(135deg,var(--violet2),var(--violet3)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    .feat-nl { font-family:var(--sans); font-size:9px; font-weight:500; color:var(--white2); letter-spacing:2px; text-transform:uppercase; font-style:normal; display:block; margin-top:2px; }
+
+    /* How */
+    .how-wrap { max-width:560px; margin:0 auto; }
+    .steps { display:flex; flex-direction:column; position:relative; }
+    .steps::before { content:''; position:absolute; left:18px; top:20px; bottom:20px; width:1px; background:linear-gradient(180deg,var(--violet),var(--rim)); }
+    .step { display:flex; gap:20px; padding-bottom:32px; }
+    .step:last-child { padding-bottom:0; }
+    .step-nd { width:36px; height:36px; border-radius:50%; flex-shrink:0; background:linear-gradient(135deg,var(--violet),#4A00CC); display:flex; align-items:center; justify-content:center; font-family:var(--serif); font-style:italic; font-size:16px; font-weight:700; color:var(--white); position:relative; z-index:2; box-shadow:0 0 20px rgba(124,58,255,0.4); }
+    .step-bd { padding-top:4px; }
+    .step-h { font-family:var(--serif); font-style:italic; font-size:18px; font-weight:700; color:var(--white); margin-bottom:5px; }
+    .step-p { font-size:12px; color:var(--white2); line-height:1.7; font-weight:300; }
+
+    /* Compliance */
+    .comp-row { display:flex; justify-content:center; gap:8px; flex-wrap:wrap; }
+    .comp-b { padding:6px 14px; border-radius:7px; border:1px solid var(--rim); background:var(--panel); font-size:10px; font-weight:500; letter-spacing:1.5px; text-transform:uppercase; color:var(--white2); transition:all 0.2s; }
+    .comp-b:hover { border-color:var(--rim2); color:var(--white); }
+
+    /* Bottom CTA */
+    .bcta { padding:72px 24px; text-align:center; border-top:1px solid var(--rim); background:linear-gradient(180deg,transparent,rgba(124,58,255,0.04)); position:relative; }
+    .bcta::before { content:''; position:absolute; top:-80px; left:50%; transform:translateX(-50%); width:400px; height:240px; background:radial-gradient(ellipse,rgba(124,58,255,0.08),transparent 70%); pointer-events:none; }
+    .bcta-h { font-family:var(--serif); font-style:italic; font-size:clamp(32px,8vw,60px); font-weight:900; line-height:0.95; letter-spacing:-1px; color:var(--white); margin-bottom:14px; }
+    .bcta-h em { font-style:italic; background:linear-gradient(110deg,var(--violet2),var(--violet3)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    .bcta-sub { font-size:14px; color:var(--white2); margin-bottom:36px; font-weight:300; }
+
+    /* Footer */
+    .ft { padding:22px 28px; border-top:1px solid var(--rim); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+    .ft-logo { font-family:var(--serif); font-style:italic; font-size:18px; font-weight:400; color:var(--white); letter-spacing:4px; }
+    .ft-links { display:flex; gap:20px; }
+    .ft-link { font-size:10px; font-weight:500; color:var(--white2); text-decoration:none; letter-spacing:1px; text-transform:uppercase; cursor:pointer; transition:color 0.2s; }
+    .ft-link:hover { color:var(--white); }
+    .ft-copy { font-size:10px; color:var(--rim2); letter-spacing:0.5px; }
+
+    /* ════════════════════════════════════════════
+       PAGE 3 — CALCULATOR
+    ════════════════════════════════════════════ */
+    #pg-calc { position:relative; z-index:2; padding-top:56px; }
+    .calc-wrap { max-width:640px; margin:0 auto; padding:40px 20px 80px; }
+    .calc-hero { text-align:center; margin-bottom:40px; padding-top:20px; }
+    .calc-ey { font-size:10px; font-weight:500; letter-spacing:3px; text-transform:uppercase; color:var(--violet2); margin-bottom:12px; display:block; }
+    .calc-h { font-family:var(--serif); font-style:italic; font-weight:900; font-size:clamp(32px,8vw,56px); line-height:1; letter-spacing:-1px; color:var(--white); margin-bottom:10px; }
+    .calc-h em { background:linear-gradient(110deg,var(--green),#00FF88); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-style:normal; }
+    .calc-sub { font-size:14px; color:var(--white2); line-height:1.6; }
+
+    /* Paycheck */
+    .pc { background:var(--panel); border:1px solid var(--rim); border-radius:22px; padding:32px 28px; margin-bottom:16px; position:relative; overflow:hidden; transition:border-color 0.3s; }
+    .pc.earning { border-color:rgba(0,232,122,0.25); }
+    .pc::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,rgba(0,232,122,0.4),transparent); opacity:0; transition:opacity 0.5s; }
+    .pc.earning::before { opacity:1; }
+    .pc-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:24px; }
+    .pc-lbl { font-size:9px; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--white2); margin-bottom:4px; }
+    .pc-per { font-size:11px; color:var(--white2); }
+    .pc-logo2 { font-family:var(--serif); font-style:italic; font-size:16px; color:var(--white2); letter-spacing:3px; opacity:0.3; }
+    .pc-amt-row { margin-bottom:6px; }
+    .pc-cur { font-family:var(--serif); font-style:italic; font-size:24px; color:var(--green); opacity:0.7; vertical-align:top; margin-top:8px; display:inline-block; }
+    .pc-amt { font-family:var(--serif); font-style:italic; font-weight:900; font-size:clamp(52px,13vw,80px); line-height:1; color:var(--green); display:inline-block; text-shadow:0 0 50px rgba(0,232,122,0.2); letter-spacing:-2px; }
+    .pc-zar { font-size:12px; color:var(--white2); margin-bottom:20px; font-style:italic; font-family:var(--serif); }
+    .pc-zar span { color:var(--green2); }
+    .pc-bar-w { background:var(--rim); border-radius:100px; height:5px; overflow:hidden; margin-bottom:20px; }
+    .pc-bar-f { height:100%; border-radius:100px; background:linear-gradient(90deg,var(--violet),var(--green)); transition:width 0.4s cubic-bezier(0.25,0.46,0.45,0.94); box-shadow:0 0 10px rgba(0,232,122,0.35); }
+    .pc-bk { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1px; background:var(--rim); border-radius:10px; overflow:hidden; }
+    .pc-bk-c { background:var(--card); padding:12px 10px; text-align:center; }
+    .pc-bk-v { font-family:var(--serif); font-style:italic; font-size:16px; font-weight:700; margin-bottom:2px; }
+    .pc-bk-v.g { color:var(--green); }
+    .pc-bk-v.v { color:var(--violet2); }
+    .pc-bk-v.m { color:var(--white2); }
+    .pc-bk-l { font-size:8px; font-weight:500; letter-spacing:2px; text-transform:uppercase; color:var(--white2); }
+
+    /* Controls */
+    .ctrl { background:var(--panel); border:1px solid var(--rim); border-radius:22px; padding:28px; margin-bottom:16px; }
+    .ctrl-t { font-size:10px; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--white2); margin-bottom:24px; }
+    .sl-g { margin-bottom:24px; }
+    .sl-g:last-child { margin-bottom:0; }
+    .sl-r { display:flex; align-items:baseline; justify-content:space-between; margin-bottom:10px; }
+    .sl-lbl { font-size:13px; font-weight:400; color:var(--white); }
+    .sl-v { font-family:var(--serif); font-style:italic; font-size:18px; font-weight:700; color:var(--violet2); min-width:80px; text-align:right; }
+    .sl-v.g { color:var(--green); }
+    input[type=range] { width:100%; height:5px; -webkit-appearance:none; appearance:none; background:var(--rim2); border-radius:100px; outline:none; cursor:pointer; }
+    input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:20px; height:20px; border-radius:50%; background:linear-gradient(135deg,var(--violet),#4A00CC); border:2px solid rgba(255,255,255,0.15); box-shadow:0 2px 10px rgba(124,58,255,0.5); cursor:grab; transition:transform 0.15s; }
+    input[type=range]::-webkit-slider-thumb:active { transform:scale(1.2); cursor:grabbing; }
+    .sl-hints { display:flex; justify-content:space-between; margin-top:5px; font-size:9px; color:var(--rim2); }
+    .tier-btns { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-top:10px; }
+    .tier-b { padding:10px 8px; border-radius:10px; border:1px solid var(--rim2); background:var(--card); font-family:var(--sans); font-size:11px; font-weight:500; color:var(--white2); cursor:pointer; transition:all 0.2s; text-align:center; }
+    .tier-b:hover { border-color:var(--violet2); color:var(--white); }
+    .tier-b.on { border-color:var(--violet); background:rgba(124,58,255,0.1); color:var(--violet3); }
+    .tier-b span { display:block; margin-top:3px; font-family:var(--serif); font-style:italic; font-size:14px; font-weight:700; color:inherit; }
+
+    /* Projection */
+    .proj { background:linear-gradient(135deg,rgba(0,232,122,0.05),rgba(124,58,255,0.05)); border:1px solid rgba(0,232,122,0.12); border-radius:18px; padding:26px; text-align:center; margin-bottom:16px; }
+    .proj-l { font-size:9px; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--green2); margin-bottom:8px; }
+    .proj-n { font-family:var(--serif); font-style:italic; font-weight:900; font-size:clamp(32px,8vw,52px); line-height:1; margin-bottom:6px; }
+    .proj-n em { background:linear-gradient(110deg,var(--green),var(--violet2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-style:normal; }
+    .proj-s { font-size:12px; color:var(--white2); line-height:1.6; }
+    .proj-s strong { color:var(--white); font-weight:500; }
+
+    /* Streams */
+    .strms { background:var(--panel); border:1px solid var(--rim); border-radius:18px; padding:24px; margin-bottom:16px; }
+    .strm-t { font-size:10px; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--white2); margin-bottom:18px; }
+    .strm-r { display:flex; align-items:center; justify-content:space-between; padding:11px 0; border-bottom:1px solid var(--rim); }
+    .strm-r:last-child { border-bottom:none; }
+    .strm-l { display:flex; align-items:center; gap:10px; }
+    .strm-ic { width:34px; height:34px; border-radius:9px; background:rgba(124,58,255,0.09); border:1px solid rgba(124,58,255,0.18); display:flex; align-items:center; justify-content:center; font-size:15px; flex-shrink:0; }
+    .strm-nm { font-size:13px; font-weight:400; color:var(--white); }
+    .strm-ds { font-size:10px; color:var(--white2); margin-top:1px; }
+    .strm-am { font-family:var(--serif); font-style:italic; font-size:16px; font-weight:700; color:var(--green); white-space:nowrap; }
+
+    /* Calc CTA */
+    .calc-cta { background:linear-gradient(135deg,#080018,#000810); border:1px solid rgba(124,58,255,0.25); border-radius:22px; padding:32px 24px; text-align:center; }
+    .cc-h { font-family:var(--serif); font-style:italic; font-size:clamp(22px,5vw,32px); font-weight:700; color:var(--white); margin-bottom:8px; line-height:1.1; }
+    .cc-s { font-size:13px; color:var(--white2); margin-bottom:24px; line-height:1.6; }
+    .cc-btn { display:inline-block; padding:14px 36px; border-radius:12px; background:linear-gradient(135deg,var(--violet),#4A00CC); font-family:var(--sans); font-size:12px; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:var(--white); text-decoration:none; cursor:pointer; border:none; transition:all 0.2s; box-shadow:0 5px 24px rgba(124,58,255,0.35); }
+    .cc-btn:hover { box-shadow:0 8px 36px rgba(124,58,255,0.55); transform:translateY(-1px); }
+    .cc-note { margin-top:12px; font-size:10px; color:var(--white2); letter-spacing:0.5px; }
+
+    /* ════════════════════════════════════════════
+       PAGE 4 — LEGAL
+    ════════════════════════════════════════════ */
+    #pg-legal { position:relative; z-index:2; padding-top:56px; }
+    .legal-wrap { max-width:680px; margin:0 auto; padding:40px 20px 80px; }
+    .legal-tabs { display:flex; gap:4px; background:var(--panel); border:1px solid var(--rim); border-radius:12px; padding:4px; margin-bottom:36px; }
+    .legal-tab { flex:1; padding:10px; border-radius:9px; border:none; background:transparent; font-family:var(--sans); font-size:11px; font-weight:500; letter-spacing:1px; text-transform:uppercase; color:var(--white2); cursor:pointer; transition:all 0.2s; text-align:center; }
+    .legal-tab.on { background:var(--violet); color:var(--white); }
+    .legal-doc { display:none; }
+    .legal-doc.on { display:block; }
+    .doc-hdr { margin-bottom:32px; padding-bottom:28px; border-bottom:1px solid var(--rim); }
+    .doc-badge { display:inline-flex; align-items:center; gap:6px; background:rgba(124,58,255,0.08); border:1px solid rgba(124,58,255,0.2); border-radius:6px; padding:5px 12px; font-size:9px; font-weight:500; letter-spacing:2px; text-transform:uppercase; color:var(--violet3); margin-bottom:14px; }
+    .doc-title { font-family:var(--serif); font-style:italic; font-size:clamp(32px,7vw,48px); font-weight:700; color:var(--white); margin-bottom:8px; line-height:1.05; }
+    .doc-meta { font-size:11px; color:var(--white2); line-height:1.8; }
+    .doc-meta span { color:var(--white); }
+    .doc-sec { margin-bottom:36px; }
+    .doc-num { font-size:9px; font-weight:600; letter-spacing:3px; color:var(--violet2); text-transform:uppercase; margin-bottom:5px; }
+    .doc-sec-h { font-family:var(--serif); font-style:italic; font-size:20px; color:var(--white); margin-bottom:12px; }
+    .doc-body { font-size:13px; color:var(--white2); line-height:1.85; font-weight:300; }
+    .doc-body p { margin-bottom:12px; }
+    .doc-body p:last-child { margin-bottom:0; }
+    .doc-body strong { color:var(--white); font-weight:500; }
+    .doc-box { background:rgba(124,58,255,0.06); border:1px solid rgba(124,58,255,0.2); border-left:3px solid var(--violet); border-radius:0 8px 8px 0; padding:14px 16px; margin:14px 0; font-size:12px; color:var(--white2); line-height:1.7; }
+    .doc-box.warn { border-left-color:var(--green); background:rgba(0,232,122,0.04); }
+    .doc-list { display:flex; flex-direction:column; gap:7px; margin:10px 0 14px; }
+    .doc-li { display:flex; gap:10px; font-size:13px; color:var(--white2); line-height:1.6; }
+    .doc-li-dot { color:var(--violet2); flex-shrink:0; font-size:11px; padding-top:3px; }
+    .contact-bx { background:var(--card); border:1px solid var(--rim); border-radius:12px; padding:22px; margin-top:16px; }
+    .cb-ttl { font-family:var(--serif); font-style:italic; font-size:18px; color:var(--white); margin-bottom:12px; }
+    .cb-r { display:flex; gap:12px; padding:8px 0; border-bottom:1px solid var(--rim); font-size:12px; }
+    .cb-r:last-child { border-bottom:none; }
+    .cb-lbl { font-size:10px; font-weight:500; letter-spacing:1px; text-transform:uppercase; color:var(--white2); width:100px; flex-shrink:0; padding-top:1px; }
+    .cb-val { color:var(--white2); font-weight:300; }
+    .cb-val a { color:var(--violet3); text-decoration:none; }
+
+    /* ── TOAST ── */
+    .toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:var(--card); border:1px solid rgba(124,58,255,0.3); color:var(--white); padding:11px 22px; border-radius:100px; font-family:var(--serif); font-style:italic; font-size:14px; white-space:nowrap; z-index:999; box-shadow:0 8px 36px rgba(0,0,0,0.5); opacity:0; pointer-events:none; transition:opacity 0.3s; letter-spacing:0.5px; }
+    .toast.show { opacity:1; }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:560px){
+      .g-nav { display:none; }
+      .stats { grid-template-columns:1fr; }
+      .feat-grid { grid-template-columns:1fr; }
+      .pc-bk { grid-template-columns:1fr 1fr 1fr; }
+      .ft { flex-direction:column; text-align:center; }
+      .ft-links { justify-content:center; }
+      .tgl-btn { padding:10px 18px; font-size:11px; }
+    }
+    @media(max-width:400px){
+      .frm-row { flex-direction:column; padding:10px; }
+      .frm-btn { width:100%; padding:13px; text-align:center; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="amb"></div>
+<div class="noise"></div>
+<div class="streaks" id="streaks"></div>
+
+<!-- ══ AGE GATE ════════════════════════════════════ -->
+<div id="pg-age" class="page active">
+  <div class="age-box">
+    <div class="age-logo">velvet</div>
+    <span class="age-tag">Premium Creator Platform</span>
+    <div class="age-flags">
+      <span class="age-flag">🇿🇦 ZA</span>
+      <span class="age-flag">🇺🇸 US</span>
+      <span class="age-flag">🇬🇧 UK</span>
+      <span class="age-flag">🇳🇬 NG</span>
+      <span class="age-flag">🇦🇺 AU</span>
+      <span class="age-flag">🇧🇷 BR</span>
+    </div>
+    <div class="age-badge">🔞 &nbsp; Adult Content · 18+ Only</div>
+    <div class="age-title">Age verification required</div>
+    <p class="age-text">This platform contains explicit adult content. You must be 18 years or older to enter. By continuing you confirm you meet the age requirement in your jurisdiction.</p>
+    <div class="age-law">
+      <strong>Legal compliance:</strong> Velvet complies with POPIA (South Africa), GDPR (EU/UK), FOSTA-SESTA (USA), and Online Safety Act (UK/AU). Geo-restrictions apply in certain regions.
+    </div>
+    <button class="age-yes" onclick="enterPlatform()">I am 18 or older — Enter Velvet</button>
+    <button class="age-no" onclick="alert('You must be 18+ to access this platform.')">I am under 18 — Exit</button>
+    <div class="age-small">
+      By entering you agree to our
+      <a onclick="showPage('legal')">Terms of Service</a> and
+      <a onclick="showPage('legal')">Privacy Policy</a>.<br/>
+      join-velvet.online · 18 U.S.C. § 2257 · velvetteam60@gmail.com
+    </div>
+  </div>
+</div>
+
+<!-- ══ GLOBAL HEADER (hidden until age confirmed) ═══ -->
+<header class="gbl-hdr" id="gblHdr" style="display:none;">
+  <div class="g-logo" onclick="showPage('land')">velvet</div>
+  <nav class="g-nav">
+    <button class="g-nav-btn on" id="nb-land" onclick="showPage('land')">Home</button>
+    <button class="g-nav-btn" id="nb-calc" onclick="showPage('calc')">Calculator</button>
+    <button class="g-nav-btn" id="nb-legal" onclick="showPage('legal')">Legal</button>
+  </nav>
+  <div class="g-pill"><span class="live-dot"></span>Waitlist open</div>
+</header>
+
+<!-- ══ LANDING PAGE ════════════════════════════════ -->
+<div id="pg-land" class="page">
+
+  <!-- Hero -->
+  <section class="land-hero">
+    <div class="land-kicker">🔞 &nbsp; Premium Creator Platform · 18+ Only</div>
+    <h1 class="land-h1">
+      <span class="h1-a">Create.</span>
+      <span class="h1-b">Earn.</span>
+      <span class="h1-c">Keep&nbsp;80%.</span>
+    </h1>
+    <p class="land-sub">Velvet is launching at <strong style="color:var(--white)">join-velvet.online</strong> — creators keep 80%, subscribers get access worldwide, payments in 170+ countries.</p>
+
+    <!-- Counter -->
+    <div class="ctr-wrap">
+      <div class="ctr-num" id="ctrNum">—</div>
+      <div class="ctr-sub">people already on the waitlist</div>
+      <div class="ctr-flags">🇿🇦 🇺🇸 🇬🇧 🇳🇬 🇦🇺 🇧🇷 🇨🇦 🇰🇪</div>
+    </div>
+
+    <!-- Toggle -->
+    <div class="tgl-wrap">
+      <button class="tgl-btn on" id="tgl-c" onclick="switchTab('creator')">I'm a Creator</button>
+      <button class="tgl-btn" id="tgl-s" onclick="switchTab('subscriber')">I'm a Subscriber</button>
+    </div>
+
+    <!-- Form -->
+    <div class="frm-wrap" id="frmWrap">
+      <div class="frm-row">
+        <input class="frm-in" type="email" id="emailIn" placeholder="your@email.com" onkeydown="if(event.key==='Enter')doJoin('emailIn')"/>
+        <button class="frm-btn" onclick="doJoin('emailIn')">Join now</button>
+      </div>
+      <p class="frm-note" id="frmNote">
+        No spam. First to know when we launch. Agree to our
+        <a onclick="showPage('legal')">Terms</a> &amp;
+        <a onclick="showPage('legal')">Privacy Policy</a> by joining.
+      </p>
+    </div>
+
+    <!-- Success -->
+    <div class="suc-card" id="sucCard" style="display:none;">
+      <span class="suc-icon">✦</span>
+      <div class="suc-h">You're in.</div>
+      <p class="suc-p" id="sucMsg"></p>
+      <div class="suc-pos" id="sucPos"></div>
+      <div class="shr-row">
+        <button class="shr-btn" onclick="copyLink()">Copy link</button>
+        <button class="shr-btn" onclick="shareX()">Share on X</button>
+        <button class="shr-btn" onclick="shareWA()">WhatsApp</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Marquee -->
+  <div class="mq-wrap">
+    <div class="mq-track">
+      <div class="mq-item"><span class="mq-dot"></span>80% Creator Payout</div>
+      <div class="mq-item"><span class="mq-dot"></span>170+ Countries</div>
+      <div class="mq-item"><span class="mq-dot"></span>CCBill Secured</div>
+      <div class="mq-item"><span class="mq-dot"></span>POPIA Compliant</div>
+      <div class="mq-item"><span class="mq-dot"></span>GDPR Ready</div>
+      <div class="mq-item"><span class="mq-dot"></span>Age Verified</div>
+      <div class="mq-item"><span class="mq-dot"></span>ZAR Payouts</div>
+      <div class="mq-item"><span class="mq-dot"></span>SA Founded</div>
+      <div class="mq-item"><span class="mq-dot"></span>18+ Platform</div>
+      <div class="mq-item"><span class="mq-dot"></span>80% Creator Payout</div>
+      <div class="mq-item"><span class="mq-dot"></span>170+ Countries</div>
+      <div class="mq-item"><span class="mq-dot"></span>CCBill Secured</div>
+      <div class="mq-item"><span class="mq-dot"></span>POPIA Compliant</div>
+      <div class="mq-item"><span class="mq-dot"></span>GDPR Ready</div>
+      <div class="mq-item"><span class="mq-dot"></span>Age Verified</div>
+      <div class="mq-item"><span class="mq-dot"></span>ZAR Payouts</div>
+      <div class="mq-item"><span class="mq-dot"></span>SA Founded</div>
+      <div class="mq-item"><span class="mq-dot"></span>18+ Platform</div>
+    </div>
+  </div>
+
+  <div class="land-wrap">
+    <!-- Stats -->
+    <div class="sec-lbl"><div class="sl-l"></div><div class="sl-t">By the numbers</div><div class="sl-l"></div></div>
+    <div class="stats">
+      <div class="stat-c"><div class="stat-n">80%</div><div class="stat-d"><strong>Creator payout</strong>Higher than most platforms. You keep more of what you earn.</div></div>
+      <div class="stat-c"><div class="stat-n">170+</div><div class="stat-d"><strong>Countries</strong>Subscribers worldwide via secure international payment processing.</div></div>
+      <div class="stat-c"><div class="stat-n">R0</div><div class="stat-d"><strong>Upfront cost</strong>Free to join. We earn only when you earn — 20% per transaction.</div></div>
+    </div>
+
+    <!-- Features -->
+    <div class="sec-lbl"><div class="sl-l"></div><div class="sl-t">Platform features</div><div class="sl-l"></div></div>
+    <div class="feat-grid">
+      <div class="feat-c"><div class="feat-ic">💳</div><div class="feat-h">ZAR payouts</div><p class="feat-p">Earnings deposited directly to your South African bank account — Capitec, FNB, ABSA, any bank.</p><div class="feat-n">Bi-weekly<span class="feat-nl">Payout schedule</span></div></div>
+      <div class="feat-c"><div class="feat-ic">🔒</div><div class="feat-h">Compliance built in</div><p class="feat-p">POPIA, GDPR, age verification, encrypted storage, and geo-blocking. Fully legal from day one.</p><div class="feat-n">100%<span class="feat-nl">Legally compliant</span></div></div>
+      <div class="feat-c"><div class="feat-ic">📱</div><div class="feat-h">Subs + PPV + Tips</div><p class="feat-p">Monthly subscriptions, pay-per-view content, direct messages, and tipping — multiple income streams.</p><div class="feat-n">3 tiers<span class="feat-nl">Fan · Superfan · VIP</span></div></div>
+      <div class="feat-c"><div class="feat-ic">🌍</div><div class="feat-h">Global reach</div><p class="feat-p">Subscribers see prices in their local currency. You receive USD converted to ZAR automatically.</p><div class="feat-n">40+<span class="feat-nl">Supported currencies</span></div></div>
+    </div>
+
+    <!-- How -->
+    <div class="sec-lbl"><div class="sl-l"></div><div class="sl-t">How it works</div><div class="sl-l"></div></div>
+    <div class="how-wrap">
+      <div class="steps">
+        <div class="step"><div class="step-nd">1</div><div class="step-bd"><div class="step-h">Join the waitlist today</div><p class="step-p">Drop your email above. Be first through the door when we open — with early-adopter perks locked in.</p></div></div>
+        <div class="step"><div class="step-nd">2</div><div class="step-bd"><div class="step-h">Verify & build your profile</div><p class="step-p">ID verification takes minutes. Set your price, choose your categories, link your SA bank account.</p></div></div>
+        <div class="step"><div class="step-nd">3</div><div class="step-bd"><div class="step-h">Publish & earn</div><p class="step-p">Post content behind your paywall. Subscribers pay, you receive 80% — deposited bi-weekly in USD to your SA bank.</p></div></div>
+      </div>
+    </div>
+
+    <!-- Compliance -->
+    <div class="sec-lbl"><div class="sl-l"></div><div class="sl-t">Trust & safety</div><div class="sl-l"></div></div>
+    <div class="comp-row">
+      <div class="comp-b">🛡 POPIA</div>
+      <div class="comp-b">🌍 GDPR</div>
+      <div class="comp-b">⚖️ FOSTA-SESTA</div>
+      <div class="comp-b">🔞 Age Verified</div>
+      <div class="comp-b">💳 Payment Secured</div>
+      <div class="comp-b">🔐 Encrypted</div>
+      <div class="comp-b">🇿🇦 SA Founded</div>
+      <div class="comp-b">📋 18 U.S.C. § 2257</div>
+    </div>
+
+    <!-- Calculator CTA -->
+    <div class="sec-lbl"><div class="sl-l"></div><div class="sl-t">Your potential</div><div class="sl-l"></div></div>
+    <div style="background:var(--panel);border:1px solid var(--rim);border-radius:18px;padding:28px;text-align:center;margin-bottom:0;">
+      <div style="font-family:var(--serif);font-style:italic;font-size:clamp(22px,5vw,32px);font-weight:700;color:var(--white);margin-bottom:8px;">How much could you earn?</div>
+      <p style="font-size:13px;color:var(--white2);margin-bottom:20px;line-height:1.6;">Use our live calculator to see your real monthly payout — in USD and ZAR.</p>
+      <button class="frm-btn" style="display:inline-block;padding:14px 32px;" onclick="showPage('calc')">Open earnings calculator →</button>
+    </div>
+
+    <!-- Bottom CTA -->
+    <div class="bcta" style="margin-top:56px;">
+      <div class="bcta-h">Start earning<br/><em>on your terms.</em></div>
+      <p class="bcta-sub">Join the waitlist. No commitment. Just early access.</p>
+      <div style="display:flex;justify-content:center;">
+        <div class="frm-wrap" style="animation:none;">
+          <div class="frm-row">
+            <input class="frm-in" type="email" id="emailBot" placeholder="your@email.com" onkeydown="if(event.key==='Enter')doJoin('emailBot')"/>
+            <button class="frm-btn" onclick="doJoin('emailBot')">Join now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="ft">
+      <div class="ft-logo">velvet</div>
+      <div class="ft-links">
+        <a class="ft-link" onclick="showPage('legal')">Terms</a>
+        <a class="ft-link" onclick="showPage('legal')">Privacy</a>
+        <a class="ft-link" href="mailto:velvetteam60@gmail.com">Contact</a>
+        <a class="ft-link" onclick="showPage('calc')">Calculator</a>
+      </div>
+      <div class="ft-copy">© 2026 Velvet · join-velvet.online · 18+ only</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CALCULATOR PAGE ══════════════════════════════ -->
+<div id="pg-calc" class="page">
+  <div class="calc-wrap">
+    <div class="calc-hero">
+      <span class="calc-ey">Creator Earnings Calculator</span>
+      <div class="calc-h">See your <em>actual income.</em></div>
+      <p class="calc-sub">Move the sliders. Watch your real monthly payout update live.</p>
+    </div>
+
+    <!-- Paycheck -->
+    <div class="pc" id="pcheck">
+      <div class="pc-top">
+        <div><div class="pc-lbl">Monthly payout to you</div><div class="pc-per" id="pcPer">Based on your inputs below</div></div>
+        <div class="pc-logo2">velvet</div>
+      </div>
+      <div class="pc-amt-row"><span class="pc-cur">$</span><span class="pc-amt" id="pcAmt">0</span></div>
+      <div class="pc-zar">≈ <span id="pcZar">R0</span> ZAR · Bi-weekly to your SA bank</div>
+      <div class="pc-bar-w"><div class="pc-bar-f" id="pcBar" style="width:0%"></div></div>
+      <div class="pc-bk">
+        <div class="pc-bk-c"><div class="pc-bk-v g" id="bkG">$0</div><div class="pc-bk-l">Gross</div></div>
+        <div class="pc-bk-c"><div class="pc-bk-v v" id="bkP">$0</div><div class="pc-bk-l">Platform 20%</div></div>
+        <div class="pc-bk-c"><div class="pc-bk-v m" id="bkC">$0</div><div class="pc-bk-l">Fees ~12%</div></div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="ctrl">
+      <div class="ctrl-t">Adjust your numbers</div>
+      <div class="sl-g">
+        <div class="sl-r"><div class="sl-lbl">Monthly subscribers</div><div class="sl-v" id="svSubs">100</div></div>
+        <input type="range" id="srSubs" min="10" max="5000" value="100" step="10"/>
+        <div class="sl-hints"><span>10</span><span>500</span><span>1,000</span><span>5,000</span></div>
+      </div>
+      <div class="sl-g">
+        <div class="sl-r"><div class="sl-lbl">Subscription price</div><div class="sl-v g" id="svPrice">$10/mo</div></div>
+        <input type="range" id="srPrice" min="3" max="50" value="10" step="1"/>
+        <div class="sl-hints"><span>$3</span><span>$10</span><span>$25</span><span>$50</span></div>
+      </div>
+      <div class="sl-g">
+        <div class="sl-r"><div class="sl-lbl">Subscription tier</div><div class="sl-v" id="svTier" style="font-size:13px;font-family:var(--sans);font-style:normal;">Fan</div></div>
+        <div class="tier-btns">
+          <button class="tier-b on" data-mult="1" data-name="Fan" onclick="setTier(this)">Fan<span id="tp0">$10</span></button>
+          <button class="tier-b" data-mult="1.5" data-name="Superfan" onclick="setTier(this)">Superfan<span id="tp1">$15</span></button>
+          <button class="tier-b" data-mult="2.2" data-name="VIP" onclick="setTier(this)">VIP<span id="tp2">$22</span></button>
+        </div>
+      </div>
+      <div class="sl-g">
+        <div class="sl-r"><div class="sl-lbl">PPV sales / month</div><div class="sl-v" id="svPPV">$0</div></div>
+        <input type="range" id="srPPV" min="0" max="2000" value="0" step="50"/>
+        <div class="sl-hints"><span>$0</span><span>$500</span><span>$1k</span><span>$2k</span></div>
+      </div>
+      <div class="sl-g">
+        <div class="sl-r"><div class="sl-lbl">Tips / month</div><div class="sl-v" id="svTips">$0</div></div>
+        <input type="range" id="srTips" min="0" max="1000" value="0" step="25"/>
+        <div class="sl-hints"><span>$0</span><span>$250</span><span>$500</span><span>$1k</span></div>
+      </div>
+    </div>
+
+    <!-- Projection -->
+    <div class="proj">
+      <div class="proj-l">📈 Annual projection</div>
+      <div class="proj-n"><em id="pyUSD">$0</em></div>
+      <div class="proj-s">≈ <strong id="pyZAR">R0</strong> ZAR per year · Bi-weekly deposits via CCBill</div>
+    </div>
+
+    <!-- Streams -->
+    <div class="strms">
+      <div class="strm-t">Income streams</div>
+      <div class="strm-r"><div class="strm-l"><div class="strm-ic">💳</div><div><div class="strm-nm">Subscriptions</div><div class="strm-ds" id="stSubD">100 fans × $10/mo</div></div></div><div class="strm-am" id="stSubA">$0</div></div>
+      <div class="strm-r"><div class="strm-l"><div class="strm-ic">🔒</div><div><div class="strm-nm">PPV Content</div><div class="strm-ds">Pay-per-view unlocks</div></div></div><div class="strm-am" id="stPPVA">$0</div></div>
+      <div class="strm-r"><div class="strm-l"><div class="strm-ic">💸</div><div><div class="strm-nm">Tips</div><div class="strm-ds">Direct fan tips</div></div></div><div class="strm-am" id="stTipA">$0</div></div>
+      <div class="strm-r"><div class="strm-l"><div class="strm-ic">✦</div><div><div class="strm-nm">Your total payout</div><div class="strm-ds">After all fees · USD to your bank</div></div></div><div class="strm-am" id="stTotA">$0</div></div>
+    </div>
+
+    <!-- CTA -->
+    <div class="calc-cta">
+      <div class="cc-h">Ready to start earning?</div>
+      <div class="cc-s">Join the waitlist at join-velvet.online.<br/>Be first through the door when we launch.</div>
+      <button class="cc-btn" onclick="showPage('land')">Join the waitlist →</button>
+      <div class="cc-note">Free to join · velvetteam60@gmail.com</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ LEGAL PAGE ═══════════════════════════════════ -->
+<div id="pg-legal" class="page">
+  <div class="legal-wrap">
+    <div style="padding-top:20px;margin-bottom:28px;">
+      <div style="font-family:var(--serif);font-style:italic;font-size:clamp(28px,7vw,44px);font-weight:700;color:var(--white);margin-bottom:6px;">Legal & Compliance</div>
+      <div style="font-size:12px;color:var(--white2);">join-velvet.online · velvetteam60@gmail.com · South Africa</div>
+    </div>
+    <div class="legal-tabs">
+      <button class="legal-tab on" onclick="switchLegal('tos',this)">Terms of Service</button>
+      <button class="legal-tab" onclick="switchLegal('pp',this)">Privacy Policy</button>
+    </div>
+
+    <!-- TOS -->
+    <div class="legal-doc on" id="ld-tos">
+      <div class="doc-hdr">
+        <div class="doc-badge">⚖️ TERMS OF SERVICE</div>
+        <div class="doc-title">Terms of Service</div>
+        <div class="doc-meta">Effective: <span>6 June 2026</span> · Platform: <span>join-velvet.online</span><br/>Jurisdiction: <span>Republic of South Africa</span> · Compliance: <span>POPIA · ECTA · GDPR · FOSTA-SESTA</span></div>
+      </div>
+      <div class="doc-sec"><div class="doc-num">01</div><div class="doc-sec-h">Acceptance of Terms</div><div class="doc-body"><p>By accessing join-velvet.online, operated by Velvet Media (Pty) Ltd, you confirm you have read, understood, and agree to be bound by these Terms of Service and all applicable laws.</p><div class="doc-box">⚠️ <strong>Age Restriction:</strong> This platform contains adult content for individuals aged 18 or older. By continuing you confirm you are of legal age in your jurisdiction.</div></div></div>
+      <div class="doc-sec"><div class="doc-num">02</div><div class="doc-sec-h">Eligibility & Age Verification</div><div class="doc-body"><p>To use Velvet you must be at least 18 years of age, provide accurate personal information, and not be prohibited by law from using this platform.</p><p>We comply with age verification requirements in the UK (Online Safety Act 2023), EU (DSA), Australia (Online Safety Act), and USA (FOSTA-SESTA / 18 U.S.C. § 2257). Creators must submit government-issued ID before publishing content.</p><div class="doc-box warn">🌍 Velvet is <strong>not available</strong> in UAE, Saudi Arabia, China, Iran, and Pakistan due to local law.</div></div></div>
+      <div class="doc-sec"><div class="doc-num">03</div><div class="doc-sec-h">Creator Terms & Content Policy</div><div class="doc-body"><div class="doc-list"><div class="doc-li"><span class="doc-li-dot">▸</span><span>All individuals in content must be 18+ with verifiable written consent</span></div><div class="doc-li"><span class="doc-li-dot">▸</span><span>Creators must maintain 18 U.S.C. § 2257 compliant records</span></div><div class="doc-li"><span class="doc-li-dot">▸</span><span>No minors in any content — zero tolerance policy</span></div><div class="doc-li"><span class="doc-li-dot">▸</span><span>No non-consensual, revenge, or impersonation content</span></div></div><div class="doc-box">🚨 <strong>Zero Tolerance:</strong> Content involving minors results in immediate termination and reporting to SAPS and INTERPOL.</div></div></div>
+      <div class="doc-sec"><div class="doc-num">04</div><div class="doc-sec-h">Payments & Revenue Split</div><div class="doc-body"><p>All payments are processed by CCBill LLC. The platform retains 20% of all transactions. Creators receive 80%. Subscriptions renew automatically. Payouts are bi-weekly with a minimum of $25 USD.</p></div></div>
+      <div class="doc-sec"><div class="doc-num">05</div><div class="doc-sec-h">Governing Law</div><div class="doc-body"><p>These terms are governed by the laws of the Republic of South Africa, including POPIA, ECTA, and the Films and Publications Act 65 of 1996. Disputes are subject to South African courts.</p></div></div>
+      <div class="doc-sec"><div class="doc-num">06</div><div class="doc-sec-h">Contact</div><div class="doc-body"><div class="contact-bx"><div class="cb-ttl">Legal Contact</div><div class="cb-r"><div class="cb-lbl">Email</div><div class="cb-val"><a href="mailto:velvetteam60@gmail.com">velvetteam60@gmail.com</a></div></div><div class="cb-r"><div class="cb-lbl">Domain</div><div class="cb-val">join-velvet.online</div></div><div class="cb-r"><div class="cb-lbl">Jurisdiction</div><div class="cb-val">Republic of South Africa</div></div></div></div></div>
+    </div>
+
+    <!-- PRIVACY POLICY -->
+    <div class="legal-doc" id="ld-pp">
+      <div class="doc-hdr">
+        <div class="doc-badge">🛡 PRIVACY POLICY</div>
+        <div class="doc-title">Privacy Policy</div>
+        <div class="doc-meta">Effective: <span>6 June 2026</span> · Platform: <span>join-velvet.online</span><br/>Compliance: <span>POPIA · GDPR · UK GDPR · 18 U.S.C. § 2257</span></div>
+      </div>
+      <div class="doc-sec"><div class="doc-num">01</div><div class="doc-sec-h">What We Collect</div><div class="doc-body"><div class="doc-list"><div class="doc-li"><span class="doc-li-dot">▸</span><span><strong>Account data:</strong> Email, username, date of birth, profile information</span></div><div class="doc-li"><span class="doc-li-dot">▸</span><span><strong>Payment data:</strong> Transactions via CCBill — we do not store card details</span></div><div class="doc-li"><span class="doc-li-dot">▸</span><span><strong>Usage data:</strong> IP address, device type, pages visited</span></div><div class="doc-li"><span class="doc-li-dot">▸</span><span><strong>ID verification:</strong> Government ID processed by Yoti — not stored by us</span></div></div></div></div>
+      <div class="doc-sec"><div class="doc-num">02</div><div class="doc-sec-h">How We Use It</div><div class="doc-body"><p>We use your data to provide the platform, process payments via CCBill, verify age, communicate with you, detect fraud, and comply with legal obligations. We do not sell your data to third parties.</p></div></div>
+      <div class="doc-sec"><div class="doc-num">03</div><div class="doc-sec-h">Third Parties</div><div class="doc-body"><div class="doc-list"><div class="doc-li"><span class="doc-li-dot">▸</span><span>CCBill LLC — payment processing (PCI-DSS compliant)</span></div><div class="doc-li"><span class="doc-li-dot">▸</span><span>Cloudflare — content delivery and security</span></div><div class="doc-li"><span class="doc-li-dot">▸</span><span>AWS — encrypted cloud storage</span></div><div class="doc-li"><span class="doc-li-dot">▸</span><span>Law enforcement — when required by valid legal process</span></div></div></div></div>
+      <div class="doc-sec"><div class="doc-num">04</div><div class="doc-sec-h">Your Rights</div><div class="doc-body"><p>You have the right to access, correct, delete, or export your personal data. To exercise these rights contact <strong>velvetteam60@gmail.com</strong>. SA residents may also contact the Information Regulator at inforeg.org.za.</p></div></div>
+      <div class="doc-sec"><div class="doc-num">05</div><div class="doc-sec-h">Contact</div><div class="doc-body"><div class="contact-bx"><div class="cb-ttl">Data Protection Contact</div><div class="cb-r"><div class="cb-lbl">DPO Email</div><div class="cb-val"><a href="mailto:velvetteam60@gmail.com">velvetteam60@gmail.com</a></div></div><div class="cb-r"><div class="cb-lbl">Regulator</div><div class="cb-val">inforeg.org.za</div></div><div class="cb-r"><div class="cb-lbl">Updated</div><div class="cb-val">6 June 2026</div></div></div></div></div>
+    </div>
+
+    <!-- Back -->
+    <div style="margin-top:40px;text-align:center;">
+      <button class="frm-btn" onclick="showPage('land')" style="padding:13px 32px;">← Back to home</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+  /* ── STREAKS ── */
+  (function(){
+    const w = document.getElementById('streaks');
+    for(let i=0;i<16;i++){
+      const el = document.createElement('div');
+      el.className='streak';
+      el.style.cssText=`left:${Math.random()*100}%;height:${80+Math.random()*180}px;opacity:${0.12+Math.random()*0.35};animation-duration:${4+Math.random()*8}s;animation-delay:${-Math.random()*10}s;`;
+      w.appendChild(el);
+    }
+  })();
+
+  /* ── PAGES ── */
+  const PAGES = { age:'pg-age', land:'pg-land', calc:'pg-calc', legal:'pg-legal' };
+  const NAV_IDS = { land:'nb-land', calc:'nb-calc', legal:'nb-legal' };
+  let ageConfirmed = false;
+
+  function showPage(key) {
+    Object.values(PAGES).forEach(id => {
+      const el = document.getElementById(id);
+      if(el) el.classList.remove('active');
+    });
+    const pg = document.getElementById(PAGES[key]);
+    if(pg) pg.classList.add('active');
+    // Nav highlight
+    Object.entries(NAV_IDS).forEach(([k,id]) => {
+      const btn = document.getElementById(id);
+      if(btn) btn.classList.toggle('on', k===key);
+    });
+    window.scrollTo(0,0);
+  }
+
+  function enterPlatform() {
+    ageConfirmed = true;
+    document.getElementById('gblHdr').style.display='flex';
+    showPage('land');
+    animCount(getCount());
+  }
+
+  /* ── COUNTER ── */
+  const SEED = 1247;
+  function getCount(){ const s=localStorage.getItem('vlt_n'); if(!s){localStorage.setItem('vlt_n',SEED);return SEED;} return parseInt(s); }
+  function bumpCount(){ const n=getCount()+1; localStorage.setItem('vlt_n',n); return n; }
+  function animCount(target){
+    const el=document.getElementById('ctrNum');
+    if(!el)return;
+    const from=parseInt(el.getAttribute('data-v')||String(target-30));
+    el.setAttribute('data-v',target);
+    const s=performance.now();
+    (function tick(now){
+      const p=Math.min((now-s)/900,1);
+      const e=p<0.5?2*p*p:-1+(4-2*p)*p;
+      el.textContent=Math.round(from+(target-from)*e).toLocaleString();
+      if(p<1)requestAnimationFrame(tick);
+    })(s);
+  }
+
+  /* ── TAB ── */
+  let activeTab='creator';
+  function switchTab(t){
+    activeTab=t;
+    document.getElementById('tgl-c').classList.toggle('on',t==='creator');
+    document.getElementById('tgl-s').classList.toggle('on',t==='subscriber');
+    const n=document.getElementById('frmNote');
+    if(n) n.innerHTML=t==='creator'
+      ?'Creators keep 80%. Paid bi-weekly to your SA bank. Agree to our <a onclick="showPage(\'legal\')">Terms</a> by joining.'
+      :'First to access creators at launch. Agree to our <a onclick="showPage(\'legal\')">Terms</a> by joining.';
+  }
+
+  /* ── JOIN ── */
+  function doJoin(id){
+    const el=document.getElementById(id);
+    const email=(el&&el.value||'').trim();
+    if(!email||!email.includes('@')||!email.includes('.')){
+      toast('Please enter a valid email');
+      if(el){el.style.borderColor='rgba(200,50,60,0.6)';setTimeout(()=>el.style.borderColor='',1500);}
+      return;
+    }
+    const entries=JSON.parse(localStorage.getItem('vlt_e')||'[]');
+    if(entries.find(e=>e.email===email)){toast("You're already on the list ✦");return;}
+    const pos=bumpCount();
+    entries.push({email,type:activeTab,ts:Date.now(),pos});
+    localStorage.setItem('vlt_e',JSON.stringify(entries));
+    animCount(pos);
+    if(id==='emailIn'){
+      document.getElementById('frmWrap').style.display='none';
+      const sc=document.getElementById('sucCard');
+      sc.style.display='block';
+      document.getElementById('sucMsg').textContent=`We've saved your spot for ${email}. You'll hear from us when Velvet opens.`;
+      document.getElementById('sucPos').textContent=`✦ Position #${pos.toLocaleString()}`;
+    } else { toast(`✦ You're on the list — #${pos.toLocaleString()}`); }
+  }
+
+  /* ── SHARE ── */
+  function copyLink(){ navigator.clipboard.writeText('https://join-velvet.online').then(()=>toast('Link copied ✦')).catch(()=>toast('join-velvet.online')); }
+  function shareX(){ window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent('Just joined the Velvet waitlist — creator platform where you keep 80%. https://join-velvet.online'),'_blank'); }
+  function shareWA(){ window.open('https://wa.me/?text='+encodeURIComponent('Check out Velvet — launching soon at join-velvet.online. Keep 80% of what you earn.'),'_blank'); }
+
+  /* ── TOAST ── */
+  function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2600); }
+
+  /* ── LEGAL TABS ── */
+  function switchLegal(key,btn){
+    document.querySelectorAll('.legal-doc').forEach(d=>d.classList.remove('on'));
+    document.querySelectorAll('.legal-tab').forEach(b=>b.classList.remove('on'));
+    document.getElementById('ld-'+key).classList.add('on');
+    btn.classList.add('on');
+  }
+
+  /* ── CALCULATOR ── */
+  const ZAR=18.5;
+  let CS={ subs:100, price:10, mult:1, tierName:'Fan', ppv:0, tips:0 };
+
+  function calcUpdate(){
+    const ep=CS.price*CS.mult;
+    const subG=CS.subs*ep;
+    const totG=subG+CS.ppv+CS.tips;
+    const ccb=totG*0.12;
+    const plat=totG*0.20;
+    const pay=Math.max(0,totG-ccb-plat);
+    const zarP=pay*ZAR;
+    const bar=Math.min((pay/5000)*100,100);
+
+    // Animate main number
+    const el=document.getElementById('pcAmt');
+    const from=parseFloat(el.getAttribute('data-c')||'0');
+    el.setAttribute('data-c',pay);
+    const s=performance.now();
+    (function tick(now){
+      const p=Math.min((now-s)/350,1);
+      const e=p<0.5?2*p*p:-1+(4-2*p)*p;
+      el.textContent=Math.round(from+(pay-from)*e).toLocaleString();
+      if(p<1)requestAnimationFrame(tick);
+    })(s);
+
+    document.getElementById('pcZar').innerHTML='≈ <span>R'+Math.round(zarP).toLocaleString()+'</span> ZAR · Bi-weekly to your SA bank';
+    document.getElementById('pcBar').style.width=bar+'%';
+    document.getElementById('pcheck').classList.toggle('earning',pay>0);
+    document.getElementById('pcPer').textContent=CS.subs.toLocaleString()+' subscribers · $'+ep.toFixed(0)+'/mo · '+CS.tierName+' tier';
+    document.getElementById('bkG').textContent='$'+Math.round(totG).toLocaleString();
+    document.getElementById('bkP').textContent='-$'+Math.round(plat).toLocaleString();
+    document.getElementById('bkC').textContent='-$'+Math.round(ccb).toLocaleString();
+    document.getElementById('pyUSD').textContent='$'+Math.round(pay*12).toLocaleString();
+    document.getElementById('pyZAR').textContent='R'+Math.round(zarP*12).toLocaleString();
+    document.getElementById('stSubD').textContent=CS.subs.toLocaleString()+' fans × $'+ep.toFixed(0)+'/mo';
+    document.getElementById('stSubA').textContent='$'+Math.round(subG*0.68).toLocaleString();
+    document.getElementById('stPPVA').textContent='$'+Math.round(CS.ppv*0.68).toLocaleString();
+    document.getElementById('stTipA').textContent='$'+Math.round(CS.tips*0.68).toLocaleString();
+    document.getElementById('stTotA').textContent='$'+Math.round(pay).toLocaleString();
+    document.getElementById('tp0').textContent='$'+CS.price;
+    document.getElementById('tp1').textContent='$'+Math.round(CS.price*1.5);
+    document.getElementById('tp2').textContent='$'+Math.round(CS.price*2.2);
+  }
+
+  document.getElementById('srSubs').oninput=function(){ CS.subs=parseInt(this.value); document.getElementById('svSubs').textContent=parseInt(this.value).toLocaleString(); calcUpdate(); };
+  document.getElementById('srPrice').oninput=function(){ CS.price=parseInt(this.value); document.getElementById('svPrice').textContent='$'+this.value+'/mo'; calcUpdate(); };
+  document.getElementById('srPPV').oninput=function(){ CS.ppv=parseInt(this.value); document.getElementById('svPPV').textContent='$'+parseInt(this.value).toLocaleString(); calcUpdate(); };
+  document.getElementById('srTips').oninput=function(){ CS.tips=parseInt(this.value); document.getElementById('svTips').textContent='$'+parseInt(this.value).toLocaleString(); calcUpdate(); };
+
+  function setTier(btn){
+    document.querySelectorAll('.tier-b').forEach(b=>b.classList.remove('on'));
+    btn.classList.add('on');
+    CS.mult=parseFloat(btn.getAttribute('data-mult'));
+    CS.tierName=btn.getAttribute('data-name');
+    document.getElementById('svTier').textContent=CS.tierName;
+    calcUpdate();
+  }
+
+  calcUpdate();
+</script>
+</body>
+</html>
